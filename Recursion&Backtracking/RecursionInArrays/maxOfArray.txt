@@ -1,0 +1,27 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        // write your code here
+        Scanner sc= new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for(int i = 0; i< n; ++i){
+            arr[i] = sc.nextInt();
+        }
+        int val = Integer.MIN_VALUE;
+        maxOfArray(arr, 0, val);
+    }
+
+    public static void maxOfArray(int[] arr, int idx, int val){
+        if(idx == arr.length){
+            System.out.print(val);
+            return;
+        }
+        int max = Math.max(val, arr[idx]);
+        val = max;
+        maxOfArray(arr, idx+1, val);
+    }
+}
