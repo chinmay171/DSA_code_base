@@ -1,0 +1,24 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        Scanner sc = new Scanner(System.in);
+        String input = sc.next();
+        printSS(input, "", 0);
+    }
+
+    public static void printSS(String input, String output, int idx) {
+        if(idx == input.length()){
+            System.out.println(output);
+            return;
+        }
+        
+        char ch = input.charAt(idx);
+        printSS(input, output+ch, idx+1);
+        printSS(input, output, idx+1);
+        
+    }
+
+}
