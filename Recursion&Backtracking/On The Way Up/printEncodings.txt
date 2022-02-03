@@ -1,0 +1,25 @@
+import java.io.*;
+import java.util.*;
+public class Main {
+    public static void main(String[] args) throws Exception {
+        Scanner sc = new Scanner(System.in);
+        String str = sc.next();
+        printEncodings(str,"", 0);
+    }
+    public static void printEncodings(String input,String output, int idx) {
+        if(idx == input.length()){
+            System.out.println(output);
+            return;
+        }
+        int ch = input.charAt(idx)-'0';
+        if(ch >=1 && ch <= 9){
+            printEncodings(input, output+(char)('a'+ch-1), idx+1);
+        }
+        if(idx+1 < input.length()){
+            int ch2 = ((input.charAt(idx)-'0')*10 + (input.charAt(idx+1)-'0'));
+            if(ch2 >=10 && ch2 <= 26){
+                printEncodings(input, output+(char)('a'+ch2-1), idx+2);
+            }
+        }
+    }
+}
