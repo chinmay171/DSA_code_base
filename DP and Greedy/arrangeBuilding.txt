@@ -1,0 +1,45 @@
+-------------------------------------------------------Tabulation------------------------------------------------------------------------
+
+
+import java.io.*;
+import java.util.*;
+public class Main{
+public static void main(String[] args) throws Exception {
+    Scanner sc = new Scanner(System.in);
+    int n = sc.nextInt();
+    int[][] dp = new int[2][n];
+    for(int i = n-1; i>= 0; --i){
+        if(i == n-1){
+            dp[0][i] = 1;
+            dp[1][i] = 1;
+            continue;
+        }
+        dp[0][i] = dp[1][i+1];
+        dp[1][i] = dp[0][i+1] + dp[1][i+1];
+    }
+    long ans = (dp[0][0]+dp[1][0]);
+    System.out.println(ans*ans);
+ }
+}
+
+------------------------------------------------------SpaceOptimized--------------------------------------------------------------------
+
+
+import java.io.*;
+import java.util.*;
+public class Main{
+public static void main(String[] args) throws Exception {
+    Scanner sc = new Scanner(System.in);
+    int n = sc.nextInt();
+    long space = 1;
+    long building = 1;
+    for(int i = 2; i<= n; ++i){
+        long ns = space+building;
+        long nb = space;
+        space = ns;
+        building = nb;
+    }
+    long ans = (space+building)*(space+building);
+    System.out.println(ans);
+ }
+}
