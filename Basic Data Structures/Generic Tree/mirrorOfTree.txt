@@ -129,9 +129,22 @@ public class Main {
       return;
     }
     Collections.reverse(node.children);
+    //reverse(node);     //when collections.reverse is not defined
     for(Node child : node.children){
       mirror(child);
     }
+  }
+  //only when reverse function is called
+  public static void reverse(Node node){
+      int i = 0; 
+      int j = node.children.size()-1;
+      while(i<j){
+          Node left = node.children.get(i);
+          Node right = node.children.get(j);
+          node.children.set(i, right);
+          node.children.set(j, left);
+          i++;j--;
+      }
   }
 
   public static void main(String[] args) throws Exception {
