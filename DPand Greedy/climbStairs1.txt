@@ -1,0 +1,136 @@
+----------------------------------------------------------------Recursive------------------------------------------------------------------
+
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        // write your code here
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int ans = recursive(n, 0);
+        System.out.println(ans);
+    }
+
+    public static int recursive(int n, int count){
+        if(n == count){
+            return 1;
+        }
+        int ans = 0;
+        if(count+1 <= n){
+            ans += recursive(n , count+1);
+        }
+        if(count+2 <= n){
+            ans += recursive(n , count+2);
+        }
+        if(count+3 <= n){
+            ans += recursive(n , count+3);
+        }
+        return ans;
+    }
+
+}
+
+-------------------------------------------------------------Memorization----------------------------------------------------------------------
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        // write your code here
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] bank = new int[n+1];
+        Arrays.fill(bank, -1);
+        int ans = memorization(n, 0, bank);
+        System.out.println(ans);
+    }
+
+    public static int memorization(int n, int count, int[] bank){
+        if(n == count){
+            return bank[count] = 1;
+        }
+        if(bank[count] != -1){
+            return bank[count];
+        }
+        int ans = 0;
+        if(count+1 <= n){
+            ans += memorization(n , count+1, bank);
+        }
+        if(count+2 <= n){
+            ans += memorization(n , count+2, bank);
+        }
+        if(count+3 <= n){
+            ans += memorization(n , count+3, bank);
+        }
+        return bank[count] = ans;
+    }
+
+}
+
+-----------------------------------------------------Tabulation---------------------------------------------------------------------------
+
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        // write your code here
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        tabulation(n);
+        
+    }
+
+    public static void tabulation(int n){
+        int[] bank = new int[n+1];
+        for(int i = n; i>= 0; i--){
+            if(n == i){
+                bank[i] = 1;
+                continue;
+            }
+            
+            int ans = 0;
+            if(i+1 <= n){
+                ans += bank[i+1];
+            }
+            if(i+2 <= n){
+                ans += bank[i+2];
+            }
+            if(i+3 <= n){
+                ans += bank[i+3];
+            }
+            bank[i] = ans;
+        }
+        System.out.println(bank[0]);
+    }
+
+}
+
+----------------------------------------------Space Optimized---------------------------------------------------------------------
+O(1);
+import java.io.*;
+import java.util.*;
+public class Main {
+    public static void main(String[] args) throws Exception {
+        // write your code here
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        tabulationWithSpace(n);   
+    }
+    public static void tabulationWithSpace(int n){
+        int next = 2;
+        int next2 = 1;
+        int next3 = 1;
+        for(int i = n-3; i>= 0; --i){
+            int curr = next + next2 + next3;
+            next3 = next2;
+            next2 = next;
+            next = curr;
+        }
+        System.out.println(next);
+    }
+}

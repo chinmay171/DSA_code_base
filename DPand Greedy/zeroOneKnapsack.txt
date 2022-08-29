@@ -1,0 +1,108 @@
+------------------------------------------------------------Recursive-------------------------------------------------------------------
+
+import java.io.*;
+import java.util.*;
+public class Main {
+    public static int knapSack(int n, int[] val, int[] wieght, int cap, int idx){
+        if(idx == n || cap == 0){
+            return 0;
+        }
+        int inc = 0; 
+        int exc = 0; 
+        if(cap >= wieght[idx]){
+            inc = knapSack(n, val, wieght, cap- wieght[idx], idx+1) + val[idx];
+        }
+        exc = knapSack(n, val, wieght, cap, idx+1);
+        return Math.max(inc, exc);
+    }
+    public static void main(String[] args) throws Exception {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] val = new int[n];
+        for(int i = 0; i< n; ++i){
+            val[i] = sc.nextInt();
+        }
+        int[] wieght = new int[n];
+        for(int i = 0; i< n; ++i){
+            wieght[i] = sc.nextInt();
+        }
+        int cap = sc.nextInt();
+        int ans = knapSack(n, val, wieght, cap, 0);
+        System.out.println(ans);
+    }
+}
+
+----------------------------------------------------------------------memorization------------------------------------------------------
+
+
+import java.io.*;
+import java.util.*;
+public class Main {
+    public static int knapSack(int n, int[] val, int[] wieght, int cap, int idx, int[][] dp){
+        if(idx == n || cap == 0){
+            return dp[idx][cap] = 0;
+        }
+        int inc = 0;
+        int exc = 0; 
+        if(cap >= wieght[idx]){
+            inc = knapSack(n, val, wieght, cap- wieght[idx], idx+1, dp) + val[idx];
+        }
+        exc = knapSack(n, val, wieght, cap, idx+1, dp);
+        return dp[idx][cap] = Math.max(inc, exc);
+    }
+    public static void main(String[] args) throws Exception {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] val = new int[n];
+        for(int i = 0; i< n; ++i){
+            val[i] = sc.nextInt();
+        }
+        int[] wieght = new int[n];
+        for(int i = 0; i< n; ++i){
+            wieght[i] = sc.nextInt();
+        }
+        int cap = sc.nextInt();
+        int[][] dp = new int[n+1][cap+1];
+        int ans = knapSack(n, val, wieght, cap, 0, dp);
+        System.out.println(ans);
+    }
+}
+
+
+----------------------------------------------Tabulation----------------------------------------------------------------------------------
+
+
+import java.io.*;
+import java.util.*;
+public class Main {
+    public static void main(String[] args) throws Exception {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] val = new int[n];
+        for(int i = 0; i< n; ++i){
+            val[i] = sc.nextInt();
+        }
+        int[] wieght = new int[n];
+        for(int i = 0; i< n; ++i){
+            wieght[i] = sc.nextInt();
+        }
+        int c = sc.nextInt();
+        int[][] dp = new int[n+1][c+1];
+        for(int idx = n; idx >= 0; --idx){
+            for(int cap = 0; cap <= c; ++cap){
+                if(idx == n || cap == 0){
+                    dp[idx][cap] = 0;
+                    continue;
+                }
+                int inc = 0;
+                int exc = 0; 
+                if(cap >= wieght[idx]){
+                    inc = dp[idx+1][cap- wieght[idx]] + val[idx];
+                }
+                exc = dp[idx+1][cap];
+                dp[idx][cap] = Math.max(inc, exc);
+            }
+        }
+        System.out.println(dp[0][c]);
+    }
+}

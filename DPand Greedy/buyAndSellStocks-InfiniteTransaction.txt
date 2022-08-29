@@ -1,0 +1,178 @@
+---------------------------------------------------------recursive------------------------------------------------------------------------
+
+
+import java.io.*;
+import java.util.*;
+public class Main {
+    public static int rec(int idx, int flag, int[] arr){
+        if(idx == arr.length){
+            return 0;
+        }
+        if(flag == 0){
+            int whenBuyingFromHere = -arr[idx] + rec(idx+1, 1, arr);
+            int whenNotBuyingFromHere = rec(idx+1, 0, arr);
+            return Math.max(whenBuyingFromHere, whenNotBuyingFromHere);
+        }
+        else{
+            int whenSellingFromHere = arr[idx] + rec(idx+1, 0, arr);
+            int whenNotSellingHere = rec(idx+1, 1, arr);
+            return Math.max(whenSellingFromHere, whenNotSellingHere);
+        }
+    }
+    public static void main(String[] args) throws Exception {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for(int i = 0; i<n; ++i){
+            arr[i] = sc.nextInt();
+        }
+        int ans = rec(0, 0, arr);
+        System.out.println(ans);
+    }
+}
+
+
+--------------------------------------------------------------Memorization------------------------------------------------------------
+
+
+
+import java.io.*;
+import java.util.*;
+public class Main {
+    public static int rec(int idx, int flag, int[] arr, int[][] dp){
+        if(idx == arr.length){
+            return dp[idx][flag] = 0;
+        }
+        if(dp[idx][flag] != 0){
+            return dp[idx][flag];
+        }
+        if(flag == 0){
+            int whenBuyingFromHere = -arr[idx] + rec(idx+1, 1, arr, dp);
+            int whenNotBuyingFromHere = rec(idx+1, 0, arr, dp);
+            return dp[idx][flag] = Math.max(whenBuyingFromHere, whenNotBuyingFromHere);
+        }
+        else{
+            int whenSellingFromHere = arr[idx] + rec(idx+1, 0, arr, dp);
+            int whenNotSellingHere = rec(idx+1, 1, arr, dp);
+            return dp[idx][flag] = Math.max(whenSellingFromHere, whenNotSellingHere);
+        }
+    }
+    public static void main(String[] args) throws Exception {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for(int i = 0; i<n; ++i){
+            arr[i] = sc.nextInt();
+        }
+        int dp[][] = new int[n+1][2];
+        int ans = rec(0, 0, arr, dp);
+        System.out.println(ans);
+    }
+}
+
+
+------------------------------------------------------------------Tabulation-------------------------------------------------------------
+
+
+
+import java.io.*;
+import java.util.*;
+public class Main {
+    public static void main(String[] args) throws Exception {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for(int i = 0; i<n; ++i){
+            arr[i] = sc.nextInt();
+        }
+        int dp[][] = new int[n+1][2];
+        for(int idx = n; idx >= 0; --idx){
+            for(int flag = 0; flag<2; ++flag){
+                if(idx == arr.length){
+                    dp[idx][flag] = 0;
+                    continue;
+                }
+                if(flag == 0){
+                    int whenBuyingFromHere = -arr[idx] + dp[idx+1][1];
+                    int whenNotBuyingFromHere = dp[idx+1][0];
+                    dp[idx][flag] = Math.max(whenBuyingFromHere, whenNotBuyingFromHere);
+                }
+                else{
+                    int whenSellingFromHere = arr[idx] + dp[idx+1][0];
+                    int whenNotSellingHere = dp[idx+1][1];
+                    dp[idx][flag] = Math.max(whenSellingFromHere, whenNotSellingHere);
+                }
+            }
+        }
+        System.out.println(dp[0][0]);
+    }
+}
+
+
+---------------------------------------------------------------SpaceOptimized-----------------------------------------------------------
+
+
+import java.io.*;
+import java.util.*;
+public class Main {
+    public static void main(String[] args) throws Exception {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for(int i = 0; i<n; ++i){
+            arr[i] = sc.nextInt();
+        }
+        int prev[] = new int[2];
+        for(int idx = n; idx >= 0; --idx){
+            int[] curr = new int[2];
+            for(int flag = 0; flag<2; ++flag){
+                if(idx == arr.length){
+                    curr[flag] = 0;
+                    continue;
+                }
+                if(flag == 0){
+                    int whenBuyingFromHere = -arr[idx] + prev[1];
+                    int whenNotBuyingFromHere = prev[0];
+                    curr[flag] = Math.max(whenBuyingFromHere, whenNotBuyingFromHere);
+                }
+                else{
+                    int whenSellingFromHere = arr[idx] + prev[0];
+                    int whenNotSellingHere = prev[1];
+                    curr[flag] = Math.max(whenSellingFromHere, whenNotSellingHere);
+                }
+            }
+            prev = curr;
+        }
+        System.out.println(prev[0]);
+    }
+}
+
+
+-------------------------------------------------------------Greedy-----------------------------------------------------------------------
+
+
+import java.io.*;
+import java.util.*;
+public class Main {
+    public static void main(String[] args) throws Exception {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for(int i = 0; i<n; ++i){
+            arr[i] = sc.nextInt();
+        }
+        int bp = 0;
+        int sp = 0; 
+        int profit = 0;
+        for(int i = 0; i<arr.length; ++i){
+            if(arr[i] > arr[sp]){
+                sp++;
+            }else{
+                profit += arr[sp]- arr[bp];
+                sp = bp = i;
+            }
+        }
+        profit += arr[sp] - arr[bp];
+        System.out.println(profit);
+    }
+}

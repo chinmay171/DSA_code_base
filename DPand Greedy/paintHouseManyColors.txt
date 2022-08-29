@@ -1,0 +1,40 @@
+import java.io.*;
+import java.util.*;
+public class Main {
+    public static void main(String[] args) throws Exception {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+        int[][] cost = new int[n][k];
+        for(int i = 0; i<n; ++i){
+            for(int j = 0; j<k; ++j){
+                cost[i][j] = sc.nextInt();
+            }
+        }
+        int[] prevColor = new int[k];
+        for(int i = 0; i<n; ++i){
+            int[] currColor = new int[k];
+            for(int j = 0; j<k; j++){
+                if(i == 0){
+                    currColor[j] = cost[i][j];
+                    continue;
+                }
+                int minCost = Integer.MAX_VALUE;
+                for(int l = 0; l < k; ++l){
+                    if(l == j){
+                        continue;
+                    }
+                    minCost = Math.min(minCost, prevColor[l]);
+                }
+                int currAns = minCost + cost[i][j];
+                currColor[j] = currAns;
+            }
+            prevColor = currColor;
+        }
+        int ans = Integer.MAX_VALUE;
+        for(int i : prevColor){
+            ans = Math.min(ans, i);
+        }
+        System.out.println(ans);
+    }
+}

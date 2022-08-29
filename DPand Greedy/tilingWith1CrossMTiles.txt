@@ -1,0 +1,74 @@
+-----------------------------------------------------------------recursive---------------------------------------------------------------
+import java.io.*;
+import java.util.*;
+public class Main {
+    public static int rec(int n , int m){
+        if(n == 0 || n <= m-1){
+            return 1;
+        }
+        int ht = rec(n-m, m);
+        int vt = rec(n-1, m);
+        return ht+vt;
+    }
+    public static void main(String[] args) throws Exception {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        int ans = rec(n, m);
+        System.out.println(ans);
+    }
+}
+
+
+-------------------------------------------------------------Memorization---------------------------------------------------------------
+
+
+import java.io.*;
+import java.util.*;
+public class Main {
+    public static int rec(int n , int m, int[] dp){
+        if(n == 0 || n <= m-1){
+            return dp[n] = 1;
+        }
+        if(dp[n] != 0){
+            return dp[n];
+        }
+        int ht = rec(n-m, m, dp);
+        int vt = rec(n-1, m, dp);
+        return dp[n] = ht+vt;
+    }
+    public static void main(String[] args) throws Exception {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        int[] dp = new int[n+1];
+        int ans = rec(n, m, dp);
+        System.out.println(ans);
+    }
+}
+
+-----------------------------------------------------------------Tabulation---------------------------------------------------------------
+
+
+
+import java.io.*;
+import java.util.*;
+public class Main {
+    public static void main(String[] args) throws Exception {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        int[] dp = new int[n+1];
+        for(int i = 0; i <= n; ++i){
+            if(i == 0 || i <= m-1){
+                dp[i] = 1;
+                continue;
+            }
+            int ht = dp[i-m];
+            int vt = dp[i-1];
+            dp[i] = ht+vt;
+        }
+        System.out.println(dp[n]);
+    }
+}
+

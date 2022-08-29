@@ -1,0 +1,115 @@
+------------------------------------------------------------Recursive------------------------------------------------------------------
+import java.io.*;
+import java.util.*;
+public class Main {
+    public static int rec(String input, int idx){
+        if(idx == input.length()){
+            return 1;
+        }
+        int ans = 0;
+        int ch1 = input.charAt(idx)-'0';
+        if(ch1 >=1 && ch1 <= 9){
+            ans += rec(input, idx+1);
+        }
+        if(idx+1 < input.length() && (input.charAt(idx) == '1' || (input.charAt(idx) == '2' && input.charAt(idx+1) <= '6'))){
+                ans += rec(input, idx+2);
+        }
+        return ans;
+    }
+    public static void main(String[] args) throws Exception {
+        Scanner sc = new Scanner(System.in);
+        String str = sc.nextLine();
+        int ans = rec(str, 0);
+        System.out.println(ans);
+    }
+}
+
+
+---------------------------------------------------------Memorization-------------------------------------------------------------------
+import java.io.*;
+import java.util.*;
+public class Main {
+    public static int rec(String input, int idx, int[] dp){
+        if(idx == input.length()){
+            return dp[idx] = 1;
+        }
+        int ans = 0;
+        int ch1 = input.charAt(idx)-'0';
+        if(ch1 >=1 && ch1 <= 9){
+            ans += rec(input, idx+1, dp);
+        }
+        if(idx+1 < input.length() && (input.charAt(idx) == '1' || (input.charAt(idx) == '2' && input.charAt(idx+1) <= '6'))){
+                ans += rec(input, idx+2, dp);
+        }
+        return dp[idx] = ans;
+    }
+    public static void main(String[] args) throws Exception {
+        Scanner sc = new Scanner(System.in);
+        String str = sc.nextLine();
+        int[] dp = new int[str.length()+1];
+        int ans = rec(str, 0, dp);
+        System.out.println(ans);
+    }
+}
+
+
+-----------------------------------------------------------Tabulation----------------------------------------------------------------------
+
+import java.io.*;
+import java.util.*;
+public class Main {
+    public static void main(String[] args) throws Exception {
+        Scanner sc = new Scanner(System.in);
+        String input = sc.nextLine();
+        int[] dp = new int[input.length()+1];
+        for(int idx = input.length(); idx >= 0; --idx){
+            if(idx == input.length()){
+                dp[idx] = 1;
+                continue;
+            }
+            int ans = 0;
+            int ch1 = input.charAt(idx)-'0';
+            if(ch1 >=1 && ch1 <= 9){
+                ans += dp[idx+1];
+            }
+            if(idx+1 < input.length() && (input.charAt(idx) == '1' || (input.charAt(idx) == '2' && input.charAt(idx+1) <= '6'))){
+                    ans += dp[idx+2];
+            }
+            dp[idx] = ans;
+        }
+        System.out.println(dp[0]);
+    }
+}
+
+
+-------------------------------------------------------------SpaceOptimized------------------------------------------------------------
+
+
+import java.io.*;
+import java.util.*;
+public class Main {
+    public static void main(String[] args) throws Exception {
+        Scanner sc = new Scanner(System.in);
+        String input = sc.nextLine();
+        int[] dp = new int[input.length()+1];
+        int nxt =0; 
+        int nxtknxt =0;
+        for(int idx = input.length(); idx >= 0; --idx){
+            if(idx == input.length()){
+                nxt = 1;
+                continue;
+            }
+            int ans = 0;
+            int ch1 = input.charAt(idx)-'0';
+            if(ch1 >=1 && ch1 <= 9){
+                ans += nxt;
+            }
+            if(idx+1 < input.length() && (input.charAt(idx) == '1' || (input.charAt(idx) == '2' && input.charAt(idx+1) <= '6'))){
+                    ans += nxtknxt;
+            }
+            nxtknxt = nxt;
+            nxt = ans;
+        }
+        System.out.println(nxt);
+    }
+}

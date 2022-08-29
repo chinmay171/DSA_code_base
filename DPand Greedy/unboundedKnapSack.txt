@@ -1,0 +1,110 @@
+----------------------------------------------------Recursive-----------------------------------------------------------------------------
+
+
+import java.io.*;
+import java.util.*;
+	public class Main {
+		public static int rec(int n, int[] val, int[] wt, int cap, int idx){
+			if(idx == n){
+				return 0;
+			}
+			int inc = 0;
+			int exc = 0;
+			if(cap >= wt[idx]){
+				inc = rec(n, val, wt, cap-wt[idx], idx)+val[idx];
+			}
+			exc = rec(n, val, wt, cap, idx+1);
+			return Math.max(inc,exc);
+		}
+	    public static void main(String[] args) throws Exception {
+			Scanner sc = new Scanner(System.in);
+			int n = sc.nextInt();
+			int[] val = new int[n];
+			for(int i = 0; i<n; ++i){
+				val[i] = sc.nextInt();
+			}
+			int[] wt = new int[n];
+			for(int i = 0; i<n; ++i){
+				wt[i] = sc.nextInt();
+			}
+			int cap = sc.nextInt();
+			int ans = rec(n, val, wt, cap, 0);
+			System.out.println(ans);
+	    }
+	}
+
+
+    --------------------------------------------------------memorization-----------------------------------------------------------------
+
+
+    import java.io.*;
+import java.util.*;
+	public class Main {
+		public static int rec(int n, int[] val, int[] wt, int cap, int idx, int[][] dp){
+			if(idx == n){
+				return dp[idx][cap] = 0;
+			}
+			int inc = 0;
+			int exc = 0;
+			if(cap >= wt[idx]){
+				inc = rec(n, val, wt, cap-wt[idx], idx, dp)+val[idx];
+			}
+			exc = rec(n, val, wt, cap, idx+1, dp);
+			return dp[idx][cap] = Math.max(inc,exc);
+		}
+	    public static void main(String[] args) throws Exception {
+			Scanner sc = new Scanner(System.in);
+			int n = sc.nextInt();
+			int[] val = new int[n];
+			for(int i = 0; i<n; ++i){
+				val[i] = sc.nextInt();
+			}
+			int[] wt = new int[n];
+			for(int i = 0; i<n; ++i){
+				wt[i] = sc.nextInt();
+			}
+			int cap = sc.nextInt();
+			int[][] dp = new int[n+1][cap+1];
+ 			int ans = rec(n, val, wt, cap, 0, dp);
+			System.out.println(ans);
+	    }
+	}
+
+
+    ----------------------------------------------------Tabulation------------------------------------------------------------------------
+
+
+import java.io.*;
+import java.util.*;
+	public class Main {
+	    public static void main(String[] args) throws Exception {
+			Scanner sc = new Scanner(System.in);
+			int n = sc.nextInt();
+			int[] val = new int[n];
+			for(int i = 0; i<n; ++i){
+				val[i] = sc.nextInt();
+			}
+			int[] wt = new int[n];
+			for(int i = 0; i<n; ++i){
+				wt[i] = sc.nextInt();
+			}
+			int c = sc.nextInt();
+			int[][] dp = new int[n+1][c+1];
+			for(int idx = n; idx>=0; --idx){
+				for(int cap = 0; cap<= c; ++cap){
+					if(idx == n){
+						dp[idx][cap] = 0;
+						continue;
+					}
+					int inc = 0;
+					int exc = 0;
+					if(cap >= wt[idx]){
+						inc = dp[idx][cap-wt[idx]]+val[idx];
+					}
+					exc = dp[idx+1][cap];
+					dp[idx][cap] = Math.max(inc,exc);
+				}
+			}
+			System.out.println(dp[0][c]);
+	    }
+	}

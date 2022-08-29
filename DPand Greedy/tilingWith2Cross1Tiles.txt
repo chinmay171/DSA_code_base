@@ -1,0 +1,96 @@
+--------------------------------------------------------recursive--------------------------------------------------------------------------
+
+
+import java.io.*;
+import java.util.*;
+public class Main {
+    public static int rec(int n){
+        if(n == 0 || n == 1){
+            return 1;
+        }
+        int ht = rec(n-2);
+        int vt = rec(n-1);
+        return ht+vt;
+    }
+    public static void main(String[] args) throws Exception {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int ans = rec(n);
+        System.out.println(ans);
+    }
+}
+
+
+-----------------------------------------------------------Memorization------------------------------------------------------------------
+
+
+import java.io.*;
+import java.util.*;
+public class Main {
+    public static int rec(int n, int[] dp){
+        if(n == 0 || n == 1){
+            return dp[n] = 1;
+        }
+        if(dp[n] != 0){
+            return dp[n];
+        }
+        int ht = rec(n-2,dp);
+        int vt = rec(n-1, dp);
+        return dp[n] = ht+vt;
+    }
+    public static void main(String[] args) throws Exception {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] dp = new int[n+1];
+        int ans = rec(n, dp);
+        System.out.println(ans);
+    }
+}
+
+
+--------------------------------------------------------Tabulation-------------------------------------------------------------------------------
+
+
+
+import java.io.*;
+import java.util.*;
+public class Main {
+    public static void main(String[] args) throws Exception {
+        Scanner sc = new Scanner(System.in);
+        int x = sc.nextInt();
+        int[] dp = new int[x+1];
+        for(int n = 0 ; n <= x; ++n){
+            if(n == 0 || n == 1){
+                dp[n] = 1;
+                continue;
+            }
+            int ht = dp[n-2];
+            int vt = dp[n-1];
+            dp[n] = ht+vt;
+        }
+        System.out.println(dp[x]);
+    }
+}
+
+
+
+---------------------------------------------------------------SpaceOptimized-----------------------------------------------------------------------------
+
+
+
+import java.io.*;
+import java.util.*;
+public class Main {
+    public static void main(String[] args) throws Exception {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int prev1 = 1;
+        int prev2 = 1;
+        for(int i = 2; i<=n; ++i){
+            int currAns = prev1 + prev2;
+            prev2 = prev1;
+            prev1 = currAns;
+        }
+        System.out.println(prev1);
+    }
+}

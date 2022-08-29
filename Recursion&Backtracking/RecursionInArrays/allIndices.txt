@@ -1,0 +1,31 @@
+//////////////////////one test case failed//////////////////////////
+
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        // write your code here
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for(int i = 0; i< n; ++i){
+            arr[i] = sc.nextInt();
+        }
+        int x = sc.nextInt();
+        allIndices(arr, 0, x);
+    }
+
+    public static void allIndices(int[] arr, int idx, int x){
+        if(idx == arr.length){
+            return;
+        }
+        if(arr[idx] == x){
+            System.out.println(idx);
+        }
+        allIndices(arr, idx+1, x);
+    }
+
+}
+
