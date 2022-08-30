@@ -1,0 +1,110 @@
+--------------------------------------------Recursive   ------------------------------------------------------------------------
+
+
+import java.io.*;
+import java.util.*;
+public class Main{
+public static int recursive(int n) {
+    if(n == 0 || n == 1){
+        return n;
+    }
+    int ans = recursive(n-1)+recursive(n-2);
+    return ans;
+}
+public static void main(String[] args) throws Exception {
+    // write your code here
+    Scanner sc = new Scanner(System.in);
+    int n = sc.nextInt();
+    int ans = recursive(n);
+    System.out.println(ans);
+ }
+}
+
+
+--------------------------------------------Memorization Technique---------------------------------------------------------
+import java.io.*;
+import java.util.*;
+
+public class Main{
+
+public static int memorizedFib(int n, int[] bank){
+    if(n== 0 || n== 1){
+        return bank[n] = n;
+        // continue;
+    }
+    if(bank[n] != -1){
+        // continue;
+        return bank[n];
+    }
+    int ans = memorizedFib(n-1, bank)+ memorizedFib(n-2, bank);
+    return bank[n] = ans;
+}
+
+public static void main(String[] args) throws Exception {
+    // write your code here
+    Scanner sc = new Scanner(System.in);
+    int n = sc.nextInt();
+    int[] bank = new int[n+1];
+    Arrays.fill(bank, -1);
+    int ans = memorizedFib(n, bank);
+    System.out.println(ans);
+ }
+}
+
+--------------------------------------------Tabulation-------------------------------------------------------------------
+
+
+import java.io.*;
+import java.util.*;
+
+public class Main{
+
+public static void tabulation(int n) {
+    int[] bank = new int[n+1];
+    for(int i = 0; i<=n; ++i){
+        if(i ==0 || i ==1){
+            bank[i] = i;
+            continue;
+        }
+        int ans = bank[i-1]+bank[i-2];
+        bank[i] = ans;
+    }
+    System.out.print(bank[n]);
+}
+
+public static void main(String[] args) throws Exception {
+    // write your code here
+    Scanner sc = new Scanner(System.in);
+    int n = sc.nextInt();
+    tabulation(n);
+ }
+}
+
+
+
+-------------------------------------------------------------Space Optimized---------------------------------------------------------
+===================================space ~ O(n)=====================================
+
+import java.io.*;
+import java.util.*;
+
+public class Main{
+
+public static void tabulation(int n) {
+    int prev = 1;
+    int secPrev = 0;
+    for(int i = 2; i<=n; ++i){
+        int curr = prev + secPrev;
+        secPrev = prev;
+        prev = curr;
+    }
+    System.out.print(prev);
+}
+
+public static void main(String[] args) throws Exception {
+    // write your code here
+    Scanner sc = new Scanner(System.in);
+    int n = sc.nextInt();
+    tabulation(n);
+ }
+}

@@ -1,0 +1,111 @@
+--------------------------------------------------------------recursive---------------------------------------------------------------------
+
+
+import java.io.*;
+import java.util.*;
+public class Main {
+    public static int rec(int idx, int flag, int[] arr, int fees){
+        if(idx == arr.length){
+            return 0;
+        }
+        if(flag == 0){
+            int whenBuyingFromHere = -arr[idx] + rec(idx+1, 1, arr,fees);
+            int whenNotBuyingFromHere = rec(idx+1, 0, arr,fees);
+            return Math.max(whenBuyingFromHere, whenNotBuyingFromHere);
+        }
+        else{
+            int whenSellingFromHere = arr[idx] + rec(idx+1, 0, arr,fees) - fees;
+            int whenNotSellingHere = rec(idx+1, 1, arr,fees);
+            return Math.max(whenSellingFromHere, whenNotSellingHere);
+        }
+    }
+    public static void main(String[] args) throws Exception {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for(int i = 0; i<n; ++i){
+            arr[i] = sc.nextInt();
+        }
+        int fees = sc.nextInt();
+        int ans = rec(0, 0, arr, fees);
+        System.out.println(ans);
+    }
+}
+
+
+
+-----------------------------------------------------------------Memorization------------------------------------------------------------
+
+
+import java.io.*;
+import java.util.*;
+public class Main {
+    public static int rec(int idx, int flag, int[] arr, int fees,int[][] dp){
+        if(idx == arr.length){
+            return dp[idx][flag] = 0;
+        }
+        if(dp[idx][flag] != 0){
+            return dp[idx][flag];
+        }
+        if(flag == 0){
+            int whenBuyingFromHere = -arr[idx] + rec(idx+1, 1, arr,fees, dp);
+            int whenNotBuyingFromHere = rec(idx+1, 0, arr,fees, dp);
+            return dp[idx][flag] = Math.max(whenBuyingFromHere, whenNotBuyingFromHere);
+        }
+        else{
+            int whenSellingFromHere = arr[idx] + rec(idx+1, 0, arr,fees, dp) - fees;
+            int whenNotSellingHere = rec(idx+1, 1, arr,fees, dp);
+            return dp[idx][flag] = Math.max(whenSellingFromHere, whenNotSellingHere);
+        }
+    }
+    public static void main(String[] args) throws Exception {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for(int i = 0; i<n; ++i){
+            arr[i] = sc.nextInt();
+        }
+        int fees = sc.nextInt();
+        int[][] dp = new int[n+1][2];
+        int ans = rec(0, 0, arr, fees, dp);
+        System.out.println(ans);
+    }
+}
+
+
+------------------------------------------------------------------Tabulation---------------------------------------------------------------
+
+
+import java.io.*;
+import java.util.*;
+public class Main {
+    public static void main(String[] args) throws Exception {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for(int i = 0; i<n; ++i){
+            arr[i] = sc.nextInt();
+        }
+        int fees = sc.nextInt();
+        int[][] dp = new int[n+1][2];
+        for(int idx = n; idx>= 0 ; --idx){
+            for(int flag = 0; flag <2; ++flag){
+                if(idx == arr.length){
+                    dp[idx][flag] = 0;
+                    continue;
+                }
+                if(flag == 0){
+                    int whenBuyingFromHere = -arr[idx] + dp[idx+1][1];
+                    int whenNotBuyingFromHere = dp[idx+1][0];
+                    dp[idx][flag] = Math.max(whenBuyingFromHere, whenNotBuyingFromHere);
+                }
+                else{
+                    int whenSellingFromHere = arr[idx] + dp[idx+1][0] - fees;
+                    int whenNotSellingHere = dp[idx+1][1];
+                    dp[idx][flag] = Math.max(whenSellingFromHere, whenNotSellingHere);
+                }
+            }
+        }
+        System.out.println(dp[0][0]);
+    }
+}

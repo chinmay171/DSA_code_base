@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import java.io.*;
 import java.util.*;
 
@@ -34,4 +35,42 @@ public class Main {
         printTargetSumSubsets(arr, idx+1, output, tar);
     }
 
+=======
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for(int i = 0; i< n; ++i){
+            arr[i] = sc.nextInt();
+        }
+        int tar = sc.nextInt();
+        printTargetSumSubsets(arr, 0, "", tar);
+        
+    }
+
+    // set is the subset
+    // sos is sum of subset
+    // tar is target
+    public static void printTargetSumSubsets(int[] arr, int idx, String output, int tar) {
+        if(idx == arr.length){
+            if(tar == 0){
+                System.out.println(output+".");
+            }
+            return;
+        }
+        
+        if(tar < 0){
+            return;
+        }
+        
+        printTargetSumSubsets(arr, idx+1, output+arr[idx]+", ",tar-arr[idx]);
+        printTargetSumSubsets(arr, idx+1, output, tar);
+    }
+
+>>>>>>> 7b1156fb9d4c3b5930610a1ca5e8c3ca654dd909
 }

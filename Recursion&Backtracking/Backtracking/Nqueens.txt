@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import java.io.*;
 import java.util.*;
 
@@ -49,4 +50,57 @@ public class Main {
             }
         }
     }
+=======
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        boolean[][] arr = new boolean[n][n];
+        printNQueens(arr, "", 0);
+    }
+
+    public static boolean isQueenPresent(boolean[][] chess, int row, int col){
+        for(int i = 0; i< row; ++i){
+            if(chess[i][col] == true){
+                return false;
+            }
+        }
+        int i = row; int j = col;
+        while(i >= 0 && j >= 0){
+            if(chess[i][j] == true){
+                return false;
+            }
+            i--; j--;
+        }
+
+        i = row; j = col;
+        while(i >= 0 && j <chess.length){
+            if(chess[i][j] == true){
+                return false;
+            }
+            i--; j++;
+        }
+
+        return true;
+    }
+
+    public static void printNQueens(boolean[][] chess, String output, int row) {
+        if(row == chess.length){
+            System.out.println(output+".");
+            return;
+        }
+
+        for(int col = 0; col<chess[0].length; ++col){
+            if(isQueenPresent(chess, row, col)){
+                chess[row][col] = true;
+                printNQueens(chess, output+row+"-"+col+", ", row+1);
+                chess[row][col] = false;
+            }
+        }
+    }
+>>>>>>> 7b1156fb9d4c3b5930610a1ca5e8c3ca654dd909
 }

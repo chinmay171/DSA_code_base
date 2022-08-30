@@ -1,0 +1,30 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    static String[] dtoc = {".;","abc","def","ghi","jkl","mno","pqrs","tu","vwx","yz"};
+    public static void main(String[] args) throws Exception {
+        Scanner sc = new Scanner(System.in);
+        String str = sc.next();
+        ArrayList<String> res = getKPC(str, 0);
+        System.out.print(res);
+    }
+
+    public static ArrayList<String> getKPC(String str, int idx) {
+        if(idx == str.length()){
+            ArrayList<String> temp= new ArrayList<>();
+            temp.add("");
+            return temp;
+        }
+        ArrayList<String> smallans = getKPC(str, idx+1);
+        ArrayList<String> ans = new ArrayList<>();
+        
+        for(Character letter : dtoc[str.charAt(idx)-'0'].toCharArray()){
+            for(String smallStr : smallans){
+                ans.add(letter+smallStr);
+            }
+        }
+        return ans;
+    }
+
+}

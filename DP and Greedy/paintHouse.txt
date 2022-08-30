@@ -1,0 +1,26 @@
+import java.io.*;
+import java.util.*;
+public class Main {
+    public static void main(String[] args) throws Exception {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[][] houses = new int[n][3];
+        for(int i =0; i<n; ++i){
+            for(int j = 0; j<3; ++j){
+                houses[i][j] = sc.nextInt();
+            }
+        }
+        int costRed = 0;
+        int costGreen = 0;
+        int costBlue = 0;
+        for(int i = 0; i<n; ++i){
+            int nr = Math.min(costGreen, costBlue) + houses[i][0];
+            int nb = Math.min(costRed, costGreen) + houses[i][1];
+            int ng = Math.min(costBlue, costRed) + houses[i][2];
+            costRed = nr;
+            costGreen = ng;
+            costBlue = nb;
+        }
+        System.out.println(Math.min(costRed, Math.min(costBlue, costGreen)));
+    }
+}
